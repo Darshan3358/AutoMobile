@@ -1,0 +1,118 @@
+[
+  {
+    "id": "belts",
+    "slug": "belts",
+    "name": "Belts, chains, rollers",
+    "icon": "cog",
+    "subCategories": [
+      {
+        "title": "Air conditioning",
+        "links": ["Condenser", "Ac compressor", "Heat exchanger", "Receiver drier", "Heater control valve"]
+      },
+      {
+        "title": "Damping",
+        "links": ["Coil spring", "Leaf spring", "Shock absorber", "Springs", "Hydraulic oil"]
+      },
+      {
+        "title": "Brakes",
+        "links": ["Brake discs", "Brake pad wear sensor", "Brake pads", "Drum brake", "Brake drum"]
+      },
+      {
+        "title": "Body",
+        "links": ["Bumper", "Doors", "Fuel tank", "Wing mirror", "Fender"]
+      },
+      {
+        "title": "Interior",
+        "links": ["Boot struts", "Car mats", "Gear shift knobs", "Window crank", "Cylinder lock"]
+      },
+      {
+        "title": "Electrics",
+        "links": ["Alternator", "Battery", "Relay starter", "Starter", "Headlight bulb"]
+      },
+      {
+        "title": "Engine",
+        "links": ["Engine electrics", "Knock sensor", "Lambda sensor", "Oil cooler", "Drive chain"]
+      },
+      {
+        "title": "Steering",
+        "links": ["Headlights", "Lighting controls", "Rear lights", "Turn signal light", "Indicator bulb"]
+      }
+    ]
+  },
+  {
+    "id": "body",
+    "slug": "body",
+    "name": "Body",
+    "icon": "car",
+    "subCategories": [
+       {
+        "title": "Body Parts",
+        "links": ["Bumper", "Doors", "Fuel tank", "Wing mirror", "Fender", "Bonnet"]
+      },
+      {
+        "title": "Glass",
+        "links": ["Windscreen", "Side Glass", "Rear Glass"]
+      }
+    ]
+  },
+  {
+    "id": "brakes",
+    "slug": "brakes",
+    "name": "Brakes",
+    "icon": "disc",
+    "subCategories": [
+      {
+        "title": "Discs & Pads",
+        "links": ["Brake discs", "Brake pads", "Brake calipers"]
+      }
+    ]
+  },
+  {
+    "id": "damping",
+    "slug": "damping",
+    "name": "Damping",
+    "icon": "layers",
+    "subCategories": [
+      {
+        "title": "Suspension",
+        "links": ["Shock absorber", "Coil spring", "Leaf spring"]
+      }
+    ]
+  },
+  {
+    "id": "electrics",
+    "slug": "electrics",
+    "name": "Electrics",
+    "icon": "zap",
+    "subCategories": [
+      {
+        "title": "Starting System",
+        "links": ["Battery", "Starter", "Alternator"]
+      }
+    ]
+  },
+  {
+    "id": "engine",
+    "slug": "engine",
+    "name": "Engine",
+    "icon": "cpu",
+    "subCategories": [
+      {
+        "title": "Engine Parts",
+        "links": ["Pistons", "Camshaft", "Gaskets"]
+      }
+    ]
+  },
+  {
+    "id": "interior",
+    "slug": "interior",
+    "name": "Interior",
+    "icon": "layout",
+    "subCategories": [
+      {
+        "title": "Cabin",
+        "links": ["Car mats", "Seat covers", "Dashboard"]
+      }
+    ]
+  }
+]
