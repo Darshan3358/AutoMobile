@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ProductCard } from '@/components/home/ProductCard';
 import { ALL_PRODUCTS, Product } from '@/data/products';
+import { Footer } from '@/components/layout/Footer';
 
 // Default product as fallback
 const DEFAULT_PRODUCT_DATA: Product = {
@@ -74,6 +75,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   const productName = product.name;
 
   return (
+    <>
     <div className="bg-[#F8F9FA] min-h-screen pb-20">
       {/* Breadcrumbs */}
       <div className="bg-white border-b border-gray-100">
@@ -458,6 +460,8 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
         </div>
       </div>
     </div>
+    <Footer variant="product" />
+    </>
   );
 }
 

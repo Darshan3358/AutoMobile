@@ -28,7 +28,7 @@ export default function Home() {
       <MoreToLove />
       <BestDeals />
       <ContentHub />
-      <Footer />
+      <Footer variant="main" />
       <FloatingActions />
     </main>
   );

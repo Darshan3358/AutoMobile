@@ -5,36 +5,6 @@ import { motion } from 'framer-motion';
 import { Play, Calendar, Tag, ChevronRight, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
-const VIDEOS = [
-  { id: 1, title: 'How to replace brake pads', duration: '12:45', thumb: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=400' },
-  { id: 2, title: 'Oil change masterclass', duration: '08:20', thumb: 'https://images.unsplash.com/photo-1486006396193-471a2abc9302?q=80&w=400' },
-  { id: 3, title: 'Suspension tuning tips', duration: '15:10', thumb: 'https://images.unsplash.com/photo-1486262715619-67b85eb19ea3?q=80&w=400' },
-];
-
-const ARTICLES = [
-  {
-    id: 1,
-    date: '02 OCT',
-    category: 'News',
-    title: 'New Performance Exhausts for BMW 3 Series',
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=400'
-  },
-  {
-    id: 2,
-    date: '15 SEP',
-    category: 'Useful',
-    title: 'Top 5 Maintenance Tips for Electric Cars',
-    image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=400'
-  },
-  {
-    id: 3,
-    date: '01 SEP',
-    category: 'Premium',
-    title: 'Exotic Parts: Carbon Fiber Body Kits',
-    image: 'https://images.unsplash.com/photo-1605341258814-22b069695028?q=80&w=400'
-  },
-];
-
 export const ContentHub = () => {
   return (
     <div className="space-y-0">
@@ -42,48 +12,51 @@ export const ContentHub = () => {
       <section className="bg-dark-blue py-16 text-white overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-4 space-y-8">
-              <h2 className="text-4xl font-black leading-tight">Car repairs have <br /> never been so easy</h2>
-              <p className="text-white/60 text-sm font-medium leading-relaxed max-w-xs">
+            <div className="lg:col-span-4 space-y-6 lg:space-y-8 text-center lg:text-left">
+              <h2 className="text-3xl lg:text-4xl font-black leading-tight">Car repairs have <br /> never been so easy</h2>
+              <p className="text-white/60 text-sm font-medium leading-relaxed max-w-xs mx-auto lg:mx-0">
                 Say no to complicated instructions and confusing diagrams. Use the practical and easy car repair tutorials.
               </p>
               <Button size="lg" className="bg-white text-dark-blue hover:bg-gray-100 font-black uppercase text-xs h-14 px-10 rounded-xl shadow-xl">
                 Read more <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
-            <div className="lg:col-span-8 flex flex-col md:flex-row gap-6">
-              {/* 3 Tutorial Thumbnails */}
-              {[
-                { title: 'Fuel temperature sensor: function and failure symptoms', img: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=400' },
-                { title: 'Radial vs Cross Ply Tyres: What\'s The Difference?', img: 'https://images.unsplash.com/photo-1486006396193-471a2abc9302?q=80&w=400' },
-                { title: 'How to change parking brake cable on MERCEDES W201', img: 'https://images.unsplash.com/photo-1486262715619-67b85eb19ea3?q=80&w=400' }
-              ].map((item, i) => (
-                <div key={i} className="flex-1 group cursor-pointer space-y-4">
-                  <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
-                    <img src={item.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-[#EA580C] text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                        <Play className="w-5 h-5 fill-current" />
+            
+            <div className="lg:col-span-8">
+               {/* Mobile horizontal scroll / Desktop flex */}
+               <div className="flex overflow-x-auto lg:overflow-visible gap-6 pb-4 lg:pb-0 no-scrollbar snap-x snap-mandatory">
+                  {[
+                    { title: 'Fuel temperature sensor: function and failure symptoms', img: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=400' },
+                    { title: 'Radial vs Cross Ply Tyres: What\'s The Difference?', img: 'https://images.unsplash.com/photo-1486006396193-471a2abc9302?q=80&w=400' },
+                    { title: 'How to change parking brake cable on MERCEDES W201', img: 'https://images.unsplash.com/photo-1486262715619-67b85eb19ea3?q=80&w=400' }
+                  ].map((item, i) => (
+                    <div key={i} className="min-w-[280px] md:min-w-[340px] flex-1 group cursor-pointer space-y-4 snap-center shrink-0">
+                      <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
+                        <img src={item.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-12 h-12 rounded-full bg-[#EA580C] text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                            <Play className="w-5 h-5 fill-current" />
+                          </div>
+                        </div>
                       </div>
+                      <h4 className="text-sm font-bold leading-tight group-hover:text-accent transition-colors line-clamp-2">{item.title}</h4>
                     </div>
-                  </div>
-                  <h4 className="text-sm font-bold leading-tight group-hover:text-accent transition-colors">{item.title}</h4>
-                </div>
-              ))}
+                  ))}
+               </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stay Informed Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-16">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
             <div className="space-y-1">
               <h3 className="text-3xl font-black text-dark-blue">Stay Informed @Mobex World</h3>
               <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Latest offers, promos, product releases and industry news</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <button className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center hover:bg-gray-50 transition-colors">
                 <ChevronRight className="w-5 h-5 rotate-180" />
               </button>
@@ -93,9 +66,9 @@ export const ContentHub = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="flex overflow-x-auto lg:grid lg:grid-cols-4 gap-8 pb-8 lg:pb-0 no-scrollbar snap-x snap-mandatory">
             {/* Subscribe Card */}
-            <div className="bg-[#FFB800] rounded-[2.5rem] p-10 flex flex-col justify-between shadow-xl">
+            <div className="min-w-[300px] lg:min-w-0 bg-[#FFB800] rounded-[2.5rem] p-10 flex flex-col justify-between shadow-xl snap-center shrink-0">
               <div className="space-y-2">
                 <h4 className="text-2xl font-black text-dark-blue">Get Exclusive Savings</h4>
                 <p className="text-xs text-dark-blue/70 font-bold uppercase tracking-tighter">Join over half a million tools lovers</p>
@@ -118,7 +91,7 @@ export const ContentHub = () => {
               { date: '02 OCT', cat: 'Usefull', title: 'Warning lights indicating activation of various systems', img: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=400' },
               { date: '02 OCT', cat: 'Premium', title: 'What to know about changing the engine oil and oil filters', img: 'https://images.unsplash.com/photo-1605341258814-22b069695028?q=80&w=400' }
             ].map((news, i) => (
-              <motion.div key={i} whileHover={{ y: -10 }} className="flex flex-col group cursor-pointer shadow-sm rounded-[2.5rem] overflow-hidden border border-gray-100 h-full">
+              <motion.div key={i} whileHover={{ y: -10 }} className="min-w-[300px] lg:min-w-0 flex flex-col group cursor-pointer shadow-sm rounded-[2.5rem] overflow-hidden border border-gray-100 h-full snap-center shrink-0 bg-white">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={news.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute top-4 left-4 bg-[#EA580C] text-white p-2.5 rounded-2xl flex flex-col items-center justify-center min-w-[55px] shadow-lg">

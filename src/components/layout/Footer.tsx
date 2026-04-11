@@ -8,6 +8,7 @@ import {
   Phone,
   MessageSquare,
   ChevronUp,
+  ChevronRight,
 } from 'lucide-react';
 import {
   Facebook,
@@ -18,7 +19,7 @@ import {
 } from '@/components/shared/SocialIcons';
 import { cn } from '@/lib/utils';
  
-export const Footer = () => {
+export const Footer = ({ variant = 'main' }: { variant?: 'main' | 'product' }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -28,55 +29,83 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-20">
           
-          {/* Logo, Social & Newsletter */}
-          <div className="space-y-8">
-            <Link href="/" className="inline-flex flex-col">
-              <span className="text-4xl font-black italic tracking-tighter leading-none text-white">
-                MOBEX
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-gray-500 mt-1">
-                Auto Parts & Accessories
-              </span>
-            </Link>
-
-            <div className="flex gap-4">
-              {[
-                { name: 'Facebook',  Icon: Facebook  },
-                { name: 'Instagram', Icon: Instagram },
-                { name: 'Linkedin',  Icon: Linkedin  },
-                { name: 'Twitter',   Icon: Twitter   },
-                { name: 'Youtube',   Icon: Youtube   },
-              ].map(({ name, Icon }) => (
-                <Link key={name} href="#" className="w-5 h-5 text-gray-500 hover:text-accent transition-colors" title={name}>
-                  <Icon className="w-full h-full" strokeWidth={2} />
+          {/* Variant Main: Logo & Welcome Info */}
+          {variant === 'main' ? (
+            <div className="lg:col-span-4 space-y-8">
+              <Link href="/" className="inline-flex flex-col">
+                <span className="text-4xl font-black italic tracking-tighter leading-none text-white">
+                  MOBEX
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-gray-500 mt-1">
+                  Auto Parts & Accessories
+                </span>
+              </Link>
+              <div className="space-y-6">
+                <p className="text-xl font-black text-white leading-tight max-w-[320px]">
+                  With over 250+ branches nationwide and 130,000 parts available Mobex Auto Parts is the USA&apos;s number 1 supplier!
+                </p>
+                <p className="text-sm font-medium text-gray-500 leading-relaxed max-w-[340px]">
+                  We offer service parts at very competitive prices with Free Delivery across the whole of the USA.
+                </p>
+                <Link 
+                  href="/shop" 
+                  className="inline-flex items-center gap-2 px-8 py-3.5 border-2 border-accent text-accent rounded-xl text-xs font-black uppercase tracking-widest hover:bg-accent hover:text-dark-blue transition-all"
+                >
+                  Discover more <ChevronRight size={16} />
                 </Link>
-              ))}
-            </div>
-
-            <div className="space-y-4">
-              <p className="text-sm font-medium text-gray-400 leading-relaxed max-w-[260px]">
-                What&apos;s inside: new arrivals, exclusive sales, truck news and more!
-              </p>
-              <div className="relative group max-w-[280px]">
-                <input 
-                  type="email" 
-                  placeholder="Email address"
-                  className="w-full bg-[#1A1A1A] border-none rounded-xl h-14 pl-6 pr-14 text-sm font-medium focus:ring-2 focus:ring-accent transition-all outline-none"
-                />
-                <button className="absolute right-2 top-2 w-10 h-10 bg-dark-blue text-white rounded-lg flex items-center justify-center hover:bg-accent hover:text-dark-blue transition-all">
-                  <Send size={16} />
-                </button>
               </div>
             </div>
-          </div>
+          ) : (
+            /* Variant Product: Logo, Social & Newsletter */
+            <div className="lg:col-span-3 space-y-8">
+              <Link href="/" className="inline-flex flex-col">
+                <span className="text-3xl font-black italic tracking-tighter leading-none text-white">
+                  MOBEX
+                </span>
+                <span className="text-[9px] uppercase font-bold tracking-[0.3em] text-gray-500 mt-1">
+                  Auto Parts & Accessories
+                </span>
+              </Link>
+
+              <div className="flex gap-4">
+                {[
+                  { name: 'Facebook',  Icon: Facebook  },
+                  { name: 'Instagram', Icon: Instagram },
+                  { name: 'Linkedin',  Icon: Linkedin  },
+                  { name: 'Twitter',   Icon: Twitter   },
+                  { name: 'Youtube',   Icon: Youtube   },
+                ].map(({ name, Icon }) => (
+                  <Link key={name} href="#" className="w-5 h-5 text-gray-500 hover:text-accent transition-colors" title={name}>
+                    <Icon className="w-full h-full" strokeWidth={2} />
+                  </Link>
+                ))}
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-sm font-medium text-gray-400 leading-relaxed max-w-[260px]">
+                  What&apos;s inside: new arrivals, exclusive sales, truck news and more!
+                </p>
+                <div className="relative group max-w-[280px]">
+                  <input 
+                    type="email" 
+                    placeholder="Email address"
+                    className="w-full bg-[#1A1A1A] border-none rounded-xl h-14 pl-6 pr-14 text-sm font-medium focus:ring-2 focus:ring-accent transition-all outline-none"
+                  />
+                  <button className="absolute right-2 top-2 w-10 h-10 bg-dark-blue text-white rounded-lg flex items-center justify-center hover:bg-accent hover:text-dark-blue transition-all">
+                    <Send size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Menus Grid */}
-          <div className="lg:col-span-2 grid grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className={cn("grid grid-cols-2 lg:grid-cols-3 gap-8", variant === 'main' ? "lg:col-span-4" : "lg:col-span-5")}>
             {/* Account */}
             <div className="space-y-6">
-              <h3 className="text-base font-black uppercase tracking-tight text-white border-b-2 border-accent inline-block pb-1">Account</h3>
+              <h3 className="text-base font-black uppercase tracking-tight text-white inline-block pb-1">Account</h3>
               <ul className="space-y-3">
                 {['Dashboard', 'Orders', 'Wishlist', 'My garage', 'Addresses'].map((item) => (
                   <li key={item}>
@@ -88,7 +117,7 @@ export const Footer = () => {
 
             {/* Catalog */}
             <div className="space-y-6">
-              <h3 className="text-base font-black uppercase tracking-tight text-white border-b-2 border-accent inline-block pb-1">Catalog</h3>
+              <h3 className="text-base font-black uppercase tracking-tight text-white inline-block pb-1">Catalog</h3>
               <ul className="space-y-3">
                 {['Shop by parts', 'Shop by brands', 'Shop by make', 'Promotions', 'Sitemap'].map((item) => (
                   <li key={item}>
@@ -100,7 +129,7 @@ export const Footer = () => {
 
             {/* Help */}
             <div className="space-y-6">
-              <h3 className="text-base font-black uppercase tracking-tight text-white border-b-2 border-accent inline-block pb-1">Help</h3>
+              <h3 className="text-base font-black uppercase tracking-tight text-white inline-block pb-1">Help</h3>
               <ul className="space-y-3">
                 {['Features', 'FAQ', 'About us', 'Career', 'Contact us'].map((item) => (
                   <li key={item}>
@@ -112,43 +141,139 @@ export const Footer = () => {
           </div>
 
           {/* Contact Section */}
-          <div className="space-y-8">
-            <h3 className="text-base font-black uppercase tracking-tight text-white">Need help? / Contact us</h3>
-            
-            <div className="space-y-6">
-              <div className="flex gap-4 group">
-                <div className="w-5 h-5 mt-1 shrink-0">
-                  <MapPin size={20} className="text-accent group-hover:scale-110 transition-transform" />
-                </div>
-                <div className="text-[14px] leading-tight font-medium text-gray-400">
-                  7031 N 35th Ave, Phoenix
-                  <span className="block mt-1">Arkansas United States</span>
-                </div>
-              </div>
+          <div className={cn("space-y-8", variant === 'main' ? "lg:col-span-4" : "lg:col-span-4")}>
+            {variant === 'main' ? (
+               <div className="space-y-8">
+                  <div className="flex flex-col">
+                    <span className="text-5xl font-black italic tracking-tighter leading-none text-white/10 select-none">
+                      MOBEX
+                    </span>
+                    <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-gray-700 mt-1 select-none">
+                      Auto Parts & Accessories
+                    </span>
+                  </div>
 
-              <div className="flex gap-4 group">
-                <div className="w-5 h-5 mt-1 shrink-0">
-                  <Phone size={20} className="text-accent group-hover:scale-110 transition-transform" />
-                </div>
-                <div className="text-[14px] leading-tight font-medium text-gray-400">
-                  Call us between 8 AM - 10 PM
-                  <span className="block mt-1 font-black text-lg text-accent tracking-tight">6668 5555 8464</span>
-                </div>
-              </div>
+                  <div className="space-y-8">
+                    <div className="flex gap-4 group">
+                      <div className="w-12 h-12 shrink-0 bg-[#1A1A1A] rounded-2xl flex items-center justify-center">
+                        <MapPin size={24} className="text-accent group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="text-[14px] leading-snug font-medium text-gray-400">
+                        <span className="block text-gray-200 font-bold mb-1">Our Location</span>
+                        7031 N 35th Ave, Phoenix
+                        <span className="block italic opacity-60">Arkansas United States</span>
+                      </div>
+                    </div>
 
-              <div className="flex gap-4 group">
-                <div className="w-5 h-5 mt-1 shrink-0">
-                  <MessageSquare size={20} className="text-accent group-hover:scale-110 transition-transform" />
-                </div>
-                <div>
-                  <h6 className="text-[15px] font-black text-white">Live chat</h6>
-                  <p className="text-[13px] font-bold text-gray-500">Chat with an Expert</p>
+                    <div className="flex gap-4 group">
+                      <div className="w-12 h-12 shrink-0 bg-[#1A1A1A] rounded-2xl flex items-center justify-center">
+                        <Phone size={24} className="text-accent group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="text-[14px] leading-snug font-medium text-gray-400">
+                        <span className="block text-gray-200 font-bold mb-1">Call us between 8 AM - 10 PM</span>
+                        <span className="block font-black text-2xl text-accent tracking-tighter">6668 5555 8464</span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4 group">
+                      <div className="w-12 h-12 shrink-0 bg-[#1A1A1A] rounded-2xl flex items-center justify-center">
+                        <MessageSquare size={24} className="text-accent group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div>
+                        <h6 className="text-[16px] font-black text-white">Live chat</h6>
+                        <p className="text-[13px] font-bold text-gray-500">Chat with an Expert</p>
+                      </div>
+                    </div>
+                  </div>
+               </div>
+            ) : (
+              <div className="space-y-8">
+                <h3 className="text-base font-black uppercase tracking-tight text-white border-b-2 border-accent inline-block pb-1">Need help? / Contact us</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex gap-4 group">
+                    <div className="w-5 h-5 mt-1 shrink-0">
+                      <MapPin size={20} className="text-accent group-hover:scale-110 transition-transform" />
+                    </div>
+                    <div className="text-[14px] leading-tight font-medium text-gray-400">
+                      7031 N 35th Ave, Phoenix
+                      <span className="block mt-1">Arkansas United States</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 group">
+                    <div className="w-5 h-5 mt-1 shrink-0">
+                      <Phone size={20} className="text-accent group-hover:scale-110 transition-transform" />
+                    </div>
+                    <div className="text-[14px] leading-tight font-medium text-gray-400">
+                      Call us between 8 AM - 10 PM
+                      <span className="block mt-1 font-black text-lg text-accent tracking-tight">6668 5555 8464</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 group">
+                    <div className="w-5 h-5 mt-1 shrink-0">
+                      <MessageSquare size={20} className="text-accent group-hover:scale-110 transition-transform" />
+                    </div>
+                    <div>
+                      <h6 className="text-[15px] font-black text-white">Live chat</h6>
+                      <p className="text-[13px] font-bold text-gray-500">Chat with an Expert</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
         </div>
+
+        {/* Variant: Main - Categories Section */}
+        {variant === 'main' && (
+          <div className="border-t border-gray-800 py-20">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-12">
+              {[
+                {
+                  title: 'Air conditioning',
+                  links: ['Condenser', 'Ac compressor', 'Heat exchanger', 'Receiver drier', 'Heater control valve']
+                },
+                {
+                  title: 'Damping',
+                  links: ['Coil spring', 'Leaf spring', 'Shock absorber', 'Springs', 'Hydraulic oil']
+                },
+                {
+                  title: 'Brakes',
+                  links: ['Brake discs', 'Brake pad wear sensor', 'Brake pads', 'Drum brake', 'Brake drum']
+                },
+                {
+                  title: 'Body',
+                  links: ['Bumper', 'Doors', 'Fuel tank', 'Wing mirror', 'Fender']
+                },
+                {
+                  title: 'Interior',
+                  links: ['Boot struts', 'Car mats', 'Gear shift knobs', 'Window crank', 'Cylinder lock']
+                },
+                {
+                  title: 'Engine',
+                  links: ['Alternator', 'Battery', 'Relay starter', 'Starter', 'Headlight bulb']
+                }
+              ].map((cat) => (
+                <div key={cat.title} className="space-y-6">
+                  <h4 className="text-[15px] font-black uppercase tracking-tight text-white">{cat.title}</h4>
+                  <ul className="space-y-2.5">
+                    {cat.links.map((link) => (
+                      <li key={link}>
+                        <Link href="#" className="text-[13px] font-bold text-gray-500 hover:text-white transition-colors">{link}</Link>
+                      </li>
+                    ))}
+                    <li className="pt-2">
+                      <Link href="#" className="text-[13px] font-black uppercase tracking-tight text-accent hover:text-white transition-colors">View all &gt;</Link>
+                    </li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Bottom Bar: Languages & Payments */}
         <div className="border-t border-gray-800 py-8 flex flex-wrap justify-between items-center gap-6">
@@ -163,13 +288,32 @@ export const Footer = () => {
               </div>
            </div>
 
-           <div className="flex items-center gap-6">
-              <span className="text-[13px] font-bold text-gray-300">Payment options</span>
-              <img 
-                src="https://enovathemes.com/mobex/wp-content/uploads/payment-options-footer.jpg" 
-                alt="Payment Options" 
-                className="h-4 object-contain opacity-80"
-              />
+           <div className="flex items-center gap-10">
+              <div className="flex items-center gap-6">
+                 <span className="text-[13px] font-bold text-gray-500">Payment options</span>
+                 <div className="flex items-center gap-4 grayscale opacity-60">
+                    <img src="https://enovathemes.com/mobex/wp-content/plugins/enovathemes-addons/assets/img/payment/visa.svg" className="h-4" alt="visa" />
+                    <img src="https://enovathemes.com/mobex/wp-content/plugins/enovathemes-addons/assets/img/payment/mastercard.svg" className="h-4" alt="mastercard" />
+                    <img src="https://enovathemes.com/mobex/wp-content/plugins/enovathemes-addons/assets/img/payment/paypal.svg" className="h-4" alt="paypal" />
+                    <img src="https://enovathemes.com/mobex/wp-content/plugins/enovathemes-addons/assets/img/payment/american-express.svg" className="h-4" alt="amex" />
+                 </div>
+              </div>
+
+              {variant === 'main' && (
+                <div className="flex gap-4 border-l border-gray-800 pl-10">
+                  {[
+                    { name: 'Facebook',  Icon: Facebook  },
+                    { name: 'Instagram', Icon: Instagram },
+                    { name: 'Linkedin',  Icon: Linkedin  },
+                    { name: 'Twitter',   Icon: Twitter   },
+                    { name: 'Youtube',   Icon: Youtube   },
+                  ].map(({ name, Icon }) => (
+                    <Link key={name} href="#" className="w-4 h-4 text-gray-500 hover:text-white transition-colors" title={name}>
+                      <Icon className="w-full h-full" />
+                    </Link>
+                  ))}
+                </div>
+              )}
            </div>
         </div>
 
