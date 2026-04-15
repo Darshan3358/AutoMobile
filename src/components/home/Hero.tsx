@@ -7,7 +7,7 @@ import { CategoryIcons } from './CategoryIcons';
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-[700px] flex flex-col items-center pt-24 pb-12 bg-dark-blue overflow-hidden">
+    <section className="relative min-h-[700px] hidden lg:flex flex-col items-center pt-24 pb-12 bg-dark-blue overflow-hidden">
       {/* Background patterns */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white rounded-full blur-[120px]" />

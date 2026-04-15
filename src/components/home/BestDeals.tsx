@@ -40,38 +40,33 @@ export const BestDeals = () => {
   const dealProducts = ALL_PRODUCTS.filter(p => p.isBestDeal);
 
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
-          <div className="flex flex-col md:flex-row md:items-center gap-6">
-            <h2 className="text-3xl font-black text-dark-blue tracking-tighter uppercase">Best Deals of the week!</h2>
-            
-            <div className="flex items-center gap-2">
-              {Object.entries(timeLeft).map(([label, value], idx) => (
-                <React.Fragment key={label}>
-                  <div className="bg-[#BC3120] text-white w-10 h-10 md:w-11 md:h-11 rounded-lg flex items-center justify-center text-lg font-black shadow-lg shadow-red-500/10">
-                    {value.toString().padStart(2, '0')}
-                  </div>
-                  {idx < 3 && <span className="text-xl font-black text-[#BC3120]">:</span>}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-             <button className="w-10 h-10 rounded-full bg-white border border-gray-100 flex items-center justify-center hover:bg-dark-blue hover:text-white transition-all shadow-sm">
-                <ChevronLeft className="w-5 h-5" />
-             </button>
-             <button className="w-10 h-10 rounded-full bg-white border border-gray-100 flex items-center justify-center hover:bg-dark-blue hover:text-white transition-all shadow-sm">
-                <ChevronRight className="w-5 h-5" />
-             </button>
+    <section className="py-12 bg-[#eff6ff]">
+      <div className="max-w-[1720px] mx-auto px-4 md:px-8">
+        <div className="flex flex-col items-center justify-center mb-10">
+          <h2 className="text-xl md:text-3xl font-black text-black tracking-tight mb-4 text-center">
+            Best Deals of the week!
+          </h2>
+          
+          <div className="flex items-center gap-1.5 md:gap-2">
+            {[timeLeft.days, timeLeft.hours, timeLeft.minutes, timeLeft.seconds].map((value, idx) => (
+              <React.Fragment key={idx}>
+                <div className="bg-[#BC3120] text-white w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center text-xl md:text-2xl font-black">
+                  {value.toString().padStart(2, '0')}
+                </div>
+                {idx < 3 && <span className="text-xl font-black text-[#BC3120]">:</span>}
+              </React.Fragment>
+            ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2">
-          {dealProducts.map(product => (
-            <ProductCard key={product.id} {...product} />
-          ))}
+        <div className="w-full overflow-x-auto no-scrollbar pb-6 md:pb-0">
+          <div className="flex flex-col flex-wrap h-[880px] md:grid md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-8 min-w-max md:min-w-0 px-2 md:h-auto snap-x snap-mandatory">
+            {dealProducts.map(product => (
+              <div key={product.id} className="basis-[calc(50%-12px)] md:basis-auto snap-start shrink-0 pb-4 h-full">
+                <ProductCard {...product} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 import { 
   PhoneCall, 
   MessageSquare, 
@@ -16,7 +17,8 @@ import {
   LayoutGrid,
   Search,
   User,
-  Settings
+  Settings,
+  Filter
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { ProductSearch } from './ProductSearch';
@@ -32,27 +34,50 @@ export const NavBar = () => {
   const [isBrandMenuOpen, setIsBrandMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isGarageOpen, setIsGarageOpen] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 40);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const closeAllMenus = () => {
+    setIsMegaMenuOpen(false);
+    setIsBrandMenuOpen(false);
+  };
 
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
     // { name: 'Demos', href: '#' },
     { name: 'Shop by brand', href: '#' },
-    { name: 'Blog', href: '#' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Elements', href: '/elements' },
   ];
 
   return (
-    <header className="w-full flex flex-col relative z-[110]">
+    <header 
+      className={cn(
+        "w-full flex flex-col items-center sticky top-0 z-[110] transition-all duration-300",
+        isSticky ? "shadow-2xl lg:translate-y-[-40px]" : ""
+      )}
+    >
       {/* Top Bar - High Fidelity Desktop */}
-      <div className="hidden lg:block bg-[#05111b] text-white/90 text-[11px] py-2 border-b border-white/5">
-        <div className="container mx-auto px-4 flex justify-between items-center">
+      <div className="hidden lg:block bg-[#05111b] text-white/90 text-[11px] py-2 border-b border-white/5 w-full">
+        <div className="px-6 flex justify-between items-center">
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-2">
               <PhoneCall className="w-3.5 h-3.5 text-accent" />
               <span className="font-bold">Call us between 8 AM - 10 PM / <strong className="text-white">6668 5555</strong></span>
             </div>
-            <Link href="#" className="flex items-center gap-2 hover:text-white transition-colors">
+            <Link 
+              href="#" 
+              onMouseEnter={closeAllMenus}
+              className="flex items-center gap-2 hover:text-white transition-colors"
+            >
               <MessageSquare className="w-3.5 h-3.5 text-accent" />
               <span className="font-bold underline underline-offset-4 decoration-accent/30">Live Chat / Chat with an Expert</span>
             </Link>
@@ -60,13 +85,24 @@ export const NavBar = () => {
           
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4 border-r border-white/10 pr-6 mr-2">
-               <span className="cursor-pointer hover:text-white flex items-center gap-1 font-bold italic">$ USD <ChevronDown size={10}/></span>
-               <span className="cursor-pointer hover:text-white flex items-center gap-1 font-bold italic">En <ChevronDown size={10}/></span>
+               <span 
+                 onMouseEnter={closeAllMenus}
+                 className="cursor-pointer hover:text-white flex items-center gap-1 font-bold italic"
+                >
+                  $ USD <ChevronDown size={10}/>
+                </span>
+               <span 
+                 onMouseEnter={closeAllMenus}
+                 className="cursor-pointer hover:text-white flex items-center gap-1 font-bold italic"
+                >
+                  En <ChevronDown size={10}/>
+                </span>
             </div>
 
             <div className="relative group">
                 <button 
                   onClick={() => setIsGarageOpen(!isGarageOpen)}
+                  onMouseEnter={closeAllMenus}
                   className="flex items-center gap-2 bg-white/10 hover:bg-accent hover:text-dark-blue px-4 py-1.5 rounded-lg transition-all font-black uppercase text-[10px] tracking-widest"
                 >
                   <Settings size={14} className={isGarageOpen ? 'animate-spin' : ''} />
@@ -76,7 +112,11 @@ export const NavBar = () => {
                 <MyGarageDropdown isOpen={isGarageOpen} onClose={() => setIsGarageOpen(false)} />
             </div>
 
-            <Link href="#" className="flex items-center gap-2 bg-accent text-dark-blue px-4 py-1.5 rounded-lg font-black uppercase text-[10px] tracking-widest hover:bg-white transition-colors shadow-lg shadow-accent/20">
+            <Link 
+              href="#" 
+              onMouseEnter={closeAllMenus}
+              className="flex items-center gap-2 bg-accent text-dark-blue px-4 py-1.5 rounded-lg font-black uppercase text-[10px] tracking-widest hover:bg-white transition-colors shadow-lg shadow-accent/20"
+            >
               <User size={14} />
               <span>Login</span>
             </Link>
@@ -84,90 +124,168 @@ export const NavBar = () => {
         </div>
       </div>
 
-      {/* Main Bar */}
-      <div className="bg-dark-blue text-white py-4 lg:py-6 border-b border-white/5">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/" className="flex flex-col">
-              <span className="text-2xl lg:text-4xl font-black italic tracking-tighter leading-none font-oswald text-white uppercase">
-                MOBEX
-              </span>
-              <span className="text-[7px] lg:text-[10px] uppercase font-bold tracking-[0.3em] text-accent mt-0.5">
-                Auto Parts & Accessories
-              </span>
-            </Link>
+      {/* Main Header Bar - Consolidated Single Row as per Image */}
+      <div className={cn(
+        "w-full py-5 border-b border-white/5 shadow-sm hidden lg:block transition-colors duration-300",
+        isSticky ? "bg-dark-blue/95 backdrop-blur-md" : "bg-dark-blue"
+      )}>
+        <div className="container mx-auto px-4 flex items-center justify-between gap-8 text-white">
+          {/* Logo Section */}
+          <Link 
+            href="/" 
+            onMouseEnter={closeAllMenus}
+            className="flex flex-col shrink-0"
+          >
+            <span className="text-3xl font-black italic tracking-tighter leading-none font-oswald text-white uppercase group-hover:text-accent transition-colors">
+              MOB<span className="text-accent">EX</span>
+            </span>
+            <span className="text-[9px] uppercase font-bold tracking-[0.3em] text-accent mt-0.5">
+              Auto Parts & Accessories
+            </span>
+          </Link>
 
-            <ProductSearch className="hidden lg:flex flex-1 mx-10" />
-
-            <div className="flex items-center gap-4 lg:gap-8">
-               <div className="hidden xl:flex items-center gap-6">
-                   <RotateCw className="w-5 h-5 hover:text-accent cursor-pointer transition-transform hover:rotate-180 duration-500" />
-                   <Heart className="w-5 h-5 hover:text-accent cursor-pointer transition-transform hover:scale-110" />
-               </div>
-
-               <Link href="/cart" className="flex items-center gap-3 relative group">
-                 <div className="relative">
-                   <ShoppingCart className="w-6 h-6 lg:w-5 lg:h-5 text-white lg:text-accent group-hover:text-white transition-colors" />
-                   <span className="absolute -top-1.5 -right-1.5 bg-accent text-dark-blue rounded-full w-4 h-4 text-[9px] flex items-center justify-center font-black animate-pulse">0</span>
-                 </div>
-                 <div className="hidden lg:flex flex-col leading-tight">
-                    <span className="text-[10px] font-black uppercase tracking-wider opacity-60 group-hover:opacity-100 transition-opacity">My Cart</span>
-                    <span className="text-[14px] font-black text-accent">$0.00</span>
-                 </div>
-               </Link>
-
-               <button 
-                 onClick={() => setIsMobileMenuOpen(true)}
-                 className="lg:hidden p-1 text-white hover:text-accent transition-colors"
-                >
-                  <Menu size={28} strokeWidth={2.5} />
-                </button>
+          {/* Navigation & Categories Group */}
+          <div className="flex items-center gap-10 flex-1">
+            {/* All Categories Trigger */}
+            <div 
+              onMouseEnter={() => {
+                closeAllMenus();
+                setIsMegaMenuOpen(true);
+              }}
+              className="flex items-center gap-3 bg-accent text-dark-blue px-6 py-2.5 rounded-md cursor-pointer font-black uppercase text-xs hover:bg-white transition-all shadow-sm"
+            >
+              <Menu className="w-4 h-4" size={18} strokeWidth={3} />
+              <span className="underline underline-offset-4 decoration-dark-blue/30">All categories</span>
             </div>
+
+            {/* Nav Links */}
+            <nav className="flex items-center gap-8 font-black text-[13px] uppercase tracking-wide">
+              {navLinks.map((link) => (
+                <div 
+                  key={link.name} 
+                  className="relative group py-2"
+                  onMouseEnter={() => {
+                    if (link.name === 'Shop by brand') {
+                      setIsMegaMenuOpen(false);
+                      setIsBrandMenuOpen(true);
+                    } else {
+                      closeAllMenus();
+                    }
+                  }}
+                >
+                  <Link 
+                    href={link.href} 
+                    className={cn(
+                      "transition-colors hover:text-accent",
+                      pathname === link.href ? "text-accent" : "text-white"
+                    )}
+                  >
+                    {link.name}
+                    <span className={cn(
+                      "absolute bottom-0 left-0 h-0.5 bg-accent transition-all duration-300",
+                      pathname === link.href ? "w-full" : "w-0 group-hover:w-full"
+                    )} />
+                  </Link>
+                </div>
+              ))}
+            </nav>
           </div>
 
-          <div className="lg:hidden mt-5">
-            <div className="relative group">
-               <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                  <Search size={16} className="text-accent" />
-               </div>
-               <input 
-                  type="text" 
-                  placeholder="What are you looking for?" 
-                  className="w-full h-11 bg-white rounded-lg pl-12 pr-4 text-xs font-bold text-dark-blue placeholder:text-gray-400 focus:outline-none shadow-xl border-none"
-               />
-               <div className="absolute inset-y-0 right-3 flex items-center">
-                  <LayoutGrid size={16} className="text-accent/50" />
-               </div>
+          {/* Right Action Icons */}
+          <div className="flex items-center gap-6 shrink-0">
+            <div className="flex items-center gap-5 border-r border-white/10 pr-6">
+              <Search className="w-5 h-5 text-white/50 hover:text-accent cursor-pointer transition-colors" />
+              <RotateCw className="w-5 h-5 text-white/50 hover:text-accent cursor-pointer transition-colors" />
+              <div className="relative group cursor-pointer">
+                <Heart className="w-5 h-5 text-white/50 hover:text-accent transition-colors" />
+                <span className="absolute -top-2 -right-2 bg-accent text-dark-blue w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center">0</span>
+              </div>
             </div>
+
+            <Link href="/cart" className="flex items-center gap-3 relative group text-white">
+               <div className="relative">
+                 <ShoppingCart className="w-5 h-5 text-white group-hover:text-accent transition-colors" />
+                 <span className="absolute -top-2 -right-2 bg-accent text-dark-blue rounded-full w-4 h-4 text-[9px] flex items-center justify-center font-black shadow-md">0</span>
+               </div>
+               <div className="flex flex-col leading-tight">
+                  <span className="text-[9px] font-black uppercase tracking-wider opacity-60">My Cart</span>
+                  <span className="text-[13px] font-black text-accent">$0.00</span>
+               </div>
+            </Link>
           </div>
         </div>
       </div>
 
-      <div className="hidden lg:block bg-[#034C8C] text-white py-3">
-        <div className="container mx-auto px-4 flex items-center justify-between">
-           <div className="flex items-center gap-8">
-              <div 
-                onMouseEnter={() => setIsMegaMenuOpen(true)}
-                className="flex items-center gap-3 bg-accent text-dark-blue px-6 py-2.5 rounded-md cursor-pointer font-black uppercase text-sm hover:bg-white transition-colors"
-              >
-                <Menu className="w-4 h-4" />
-                <span>All categories</span>
-              </div>
+      {/* Mobile Bar - 100% SAME AS REFERENCE IMAGE */}
+      <div className="lg:hidden w-full max-w-full overflow-hidden bg-[#004b7c] text-white flex flex-col shadow-2xl">
+          {/* Top Row: Logo, Cart, Menu */}
+          <div className="flex items-center justify-between px-4 pt-5 pb-3">
+            <Link href="/" className="flex flex-col">
+              <span className="text-[34px] font-black italic tracking-tighter leading-none font-oswald text-white uppercase drop-shadow-md">
+                MOB<span className="text-[#ffb900]">EX</span>
+              </span>
+              <span className="text-[8px] uppercase font-bold tracking-[0.35em] text-white/90 mt-1 whitespace-nowrap opacity-90">
+                AUTO PARTS & ACCESSORIES
+              </span>
+            </Link>
+            <div className="flex items-center gap-5">
+               <div className="relative">
+                 <ShoppingCart className="w-8 h-8 text-white" strokeWidth={1.5} />
+                 <span className="absolute -top-1 -right-2 bg-[#ffb900] text-black rounded-full w-[22px] h-[22px] text-[12px] flex items-center justify-center font-black shadow-lg">0</span>
+               </div>
+               <button onClick={() => setIsMobileMenuOpen(true)}>
+                 <Menu size={34} className="text-white" strokeWidth={2.5} />
+               </button>
+            </div>
+          </div>
 
-              <nav className="flex items-center gap-8 font-bold text-[13px] uppercase tracking-wide">
-                {navLinks.map((link) => (
-                  <Link 
-                    key={link.name}
-                    href={link.href} 
-                    className={`hover:text-accent transition-colors relative group py-2 ${pathname === link.href ? 'text-accent font-black' : 'text-white'}`}
+          {/* Search Bar Row - High Fidelity */}
+          <div className="px-4 pb-6">
+            <div className="bg-white rounded-xl flex items-center h-[54px] px-5 shadow-[0_10px_30px_rgba(0,0,0,0.15)] overflow-hidden">
+              <Search className="text-[#ffb900] w-6 h-6 mr-3 shrink-0" strokeWidth={3} />
+              <input 
+                type="text" 
+                placeholder="What are you looking for?" 
+                className="flex-1 bg-transparent border-none outline-none text-gray-800 font-medium placeholder:text-gray-400 text-[16px]"
+              />
+              <Filter className="text-[#ffb900] w-6 h-6 ml-2 shrink-0" strokeWidth={2.5} />
+            </div>
+          </div>
+
+          {/* Premium Categories Section with Smooth Scroll */}
+          {pathname !== '/shop' && (
+            <div className="bg-gradient-to-b from-[#004b7c] to-[#015a91] pb-10 pt-4 border-t border-white/5 relative">
+              <div className="w-full overflow-x-auto no-scrollbar flex items-start gap-4 px-4 snap-x snap-mandatory scroll-smooth touch-pan-x">
+                {[
+                  { name: 'Electrics', img: 'https://enovathemes.com/mobex/wp-content/uploads/Electrics.webp' },
+                  { name: 'Engine', img: 'https://enovathemes.com/mobex/wp-content/uploads/Engine.webp' },
+                  { name: 'Filters', img: 'https://enovathemes.com/mobex/wp-content/uploads/Air-conditioning.webp' },
+                  { name: 'Interior', img: 'https://enovathemes.com/mobex/wp-content/uploads/Interior.webp' },
+                  { name: 'Fluids', img: 'https://enovathemes.com/mobex/wp-content/uploads/Oils-and-fluids.webp' },
+                  { name: 'Brakes', img: 'https://enovathemes.com/mobex/wp-content/uploads/Brakes.webp' },
+                  { name: 'Body Parts', img: 'https://enovathemes.com/mobex/wp-content/uploads/Body.webp' },
+                ].map((cat, i) => (
+                  <div 
+                    key={i} 
+                    className="flex flex-col items-center gap-3 shrink-0 snap-start min-w-[100px]"
                   >
-                    {link.name}
-                    <span className={`absolute bottom-0 left-0 h-0.5 bg-accent transition-all duration-300 ${pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`} />
-                  </Link>
+                    <div className="w-[100px] h-[100px] rounded-full bg-white/10 flex items-center justify-center p-3 border border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.3)] relative overflow-hidden group/cat active:scale-95 transition-all duration-300">
+                      <img 
+                        src={cat.img} 
+                        alt={cat.name} 
+                        className="w-full h-full object-contain z-10 drop-shadow-2xl transition-transform duration-500 group-hover/cat:scale-110" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+                    </div>
+                    <span className="text-white text-[12px] font-black uppercase tracking-wider font-sans text-center whitespace-nowrap leading-none">
+                      {cat.name}
+                    </span>
+                  </div>
                 ))}
-              </nav>
-           </div>
-        </div>
+                <div className="w-10 shrink-0 h-1" />
+              </div>
+            </div>
+          )}
       </div>
 
       <MegaMenu isOpen={isMegaMenuOpen} onClose={() => setIsMegaMenuOpen(false)} />

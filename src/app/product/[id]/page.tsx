@@ -16,7 +16,8 @@ import {
   Zap,
   ArrowRight,
   MessageSquare,
-  Search
+  Search,
+  RotateCw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -306,76 +307,176 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
         {/* Product Inner Tabs / Detailed Sections */}
         <div className="mt-24 space-y-20">
 
-          {/* Description */}
-          <section className="bg-white rounded-[40px] p-12 border border-gray-100 shadow-sm">
-            <h2 className="text-3xl font-black text-dark-blue uppercase tracking-tight mb-8">Description</h2>
-            <div className="prose max-w-none text-gray-500 font-medium leading-[1.8] space-y-6">
-              <p>{product.description || 'No description available for this product.'}</p>
-              <p>Curabitur vitae porta odio. Nunc in justo non purus malesuada lacinia. In hac habitasse platea dictumst. Sed venenatis, arcu ac ultrices facilisis, augue velit malesuada ex, vestibulum ex mi at justo. Vestibulum sollicitudin euismod odio, a aliquet ex pellentesque et. Suspendisse euismod in erat ac dignissim. Etiam posuere, odio at bibendum iaculis, arcu sapien iaculis neque, id pellentesque tellus elit nec massa.</p>
-              <p>Fusce auctor bibendum ex, at elementum tortor auctor in. Sed pharetra odio in velit feugiat, id bibendum ipsum elementum. In tincidunt eleifend scelerisque. Nulla facilisi. Nulla facilisi. Fusce bibendum, turpis nec eleifend facilisis, ipsum ex facilisis justo, sit amet tristique turpis arcu et justo. Cras id aliquam lectus. Suspendisse potenti. Proin non turpis vitae felis tincidunt suscipit. Suspendisse laoreet bibendum nisl, a facilisis justo iaculis non.</p>
+          {/* Frequently Bought Together */}
+          <section className="bg-white rounded-[40px] p-10 border border-gray-100 shadow-sm">
+             <div className="flex items-center gap-3 mb-8">
+               <RotateCw className="text-accent" size={20} />
+               <h2 className="text-2xl font-black text-dark-blue uppercase tracking-tight italic font-oswald">Frequently bought together</h2>
+             </div>
+             <div className="flex flex-wrap items-center gap-8">
+                <div className="flex items-center gap-6">
+                   {[
+                     { name: 'RIDEX WIPER MOTOR', price: 31.29, image: 'https://enovathemes.com/mobex/wp-content/uploads/product-125-img-1.webp' },
+                     { name: 'RIDEX CONTROL ARM', price: 20.11, image: 'https://enovathemes.com/mobex/wp-content/uploads/product-41-img-1-600x600.webp' },
+                     { name: 'HELLA BULB', price: 5.32, image: 'https://enovathemes.com/mobex/wp-content/uploads/product-111-img-1.webp' },
+                   ].map((item, i) => (
+                     <React.Fragment key={i}>
+                       <div className="flex items-center gap-4 bg-gray-50 pr-6 rounded-2xl border border-gray-100 transition-all hover:bg-white hover:shadow-lg group">
+                          <div className="w-20 h-20 p-2 bg-white rounded-xl">
+                             <img src={item.image} alt="" className="w-full h-full object-contain group-hover:scale-110 transition-transform" />
+                          </div>
+                          <div className="flex flex-col">
+                             <span className="text-[10px] font-black text-dark-blue uppercase tracking-tight leading-none mb-1">{item.name}</span>
+                             <span className="text-[13px] font-black text-accent">${item.price}</span>
+                          </div>
+                       </div>
+                       {i < 2 && <Plus className="text-gray-200" size={20} />}
+                     </React.Fragment>
+                   ))}
+                </div>
+                <div className="flex-1 flex flex-col items-end gap-2 border-l border-gray-100 pl-8">
+                   <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Total Price</div>
+                   <div className="text-3xl font-black text-dark-blue italic font-oswald">$56.72</div>
+                   <button className="h-12 px-8 bg-accent text-dark-blue rounded-xl font-black uppercase text-[11px] tracking-widest hover:bg-dark-blue hover:text-white transition-all">
+                      Add all to cart
+                   </button>
+                </div>
+             </div>
+          </section>
+
+          {/* Description with Banners */}
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-8 bg-white rounded-[40px] p-12 border border-gray-100 shadow-sm space-y-12">
+              <div className="relative rounded-[30px] overflow-hidden aspect-[21/9]">
+                 <img src="https://enovathemes.com/mobex/wp-content/uploads/product-description-banner.webp" className="w-full h-full object-cover" alt="" />
+                 <div className="absolute inset-0 bg-dark-blue/20" />
+              </div>
+              <div className="prose max-w-none text-gray-500 font-medium leading-[1.8] space-y-6">
+                <p>The LIQUI MOLY Top Tec 4200 5W-30 Engine Oil is a premium, high-tech, low-friction motor oil based on synthetic technology. Developed for the high requirements of Audi, BMW, Mercedes-Benz, and the VW Group. The low-SAPS technology guarantees optimum engine cleanliness and protects the particulate filter from clogging.</p>
+                <div className="grid grid-cols-2 gap-8 py-8">
+                   <div className="space-y-4">
+                      <h4 className="text-xl font-black text-dark-blue uppercase italic font-oswald">Premium Quality</h4>
+                      <p className="text-sm">Exceeds industry standards for engine protection and performance in extreme conditions.</p>
+                   </div>
+                   <div className="space-y-4">
+                      <h4 className="text-xl font-black text-dark-blue uppercase italic font-oswald">Eco-Friendly</h4>
+                      <p className="text-sm">Low emission technology helps reduce environmental impact and improves fuel efficiency.</p>
+                   </div>
+                </div>
+                <p>Curabitur vitae porta odio. Nunc in justo non purus malesuada lacinia. In hac habitasse platea dictumst. Sed venenatis, arcu ac ultrices facilisis, augue velit malesuada ex, vestibulum ex mi at justo. Vestibulum sollicitudin euismod odio, a aliquet ex pellentesque et. Suspendisse euismod in erat ac dignissim.</p>
+              </div>
             </div>
 
-            {/* Social Component */}
-            <div className="flex gap-2 mt-12 pt-12 border-t border-gray-100">
-               { [
-                  { name: 'facebook', icon: FacebookIcon, color: 'bg-[#3B5998]' },
-                  { name: 'twitter', icon: TwitterIcon, color: 'bg-[#00ACEE]' },
-                  { name: 'pinterest', icon: PinterestIcon, color: 'bg-[#BD081C]' },
-                  { name: 'linkedin', icon: LinkedinIcon, color: 'bg-[#007FB1]' },
-                  { name: 'whatsapp', icon: WhatsappIcon, color: 'bg-[#25D366]' },
-                  { name: 'telegram', icon: TelegramIcon, color: 'bg-[#0088CC]' },
-                  { name: 'mail', icon: MailIcon, color: 'bg-dark-blue' },
-                ].map((item, i) => (
-                  <button 
-                    key={i} 
-                    className={cn(
-                      "w-10 h-10 rounded-xl flex items-center justify-center text-white transition-all transform hover:scale-110 hover:-translate-y-1 shadow-lg",
-                      item.color
-                    )}
-                  >
-                    <item.icon className="w-5 h-5" />
+            <div className="lg:col-span-4 space-y-8">
+               <div className="bg-[#034C8C] rounded-[40px] p-10 text-white relative overflow-hidden group">
+                  <span className="text-[10px] font-black uppercase text-accent tracking-widest mb-4 block">Recommended</span>
+                  <h4 className="text-3xl font-black italic tracking-tighter leading-none mb-6 uppercase">
+                    Care Care <br /> Kit
+                  </h4>
+                  <p className="text-white/60 text-xs mb-8 font-medium">Keep your vehicle in pristine condition with our curated selection of cleaning products.</p>
+                  <button className="h-10 px-6 bg-white text-dark-blue rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-accent transition-all relative z-10">
+                    View more
                   </button>
-                )) }
+                  <ShoppingCart className="absolute -bottom-10 -right-10 w-48 h-48 text-white/[0.05] group-hover:scale-110 transition-transform" />
+               </div>
+
+               <div className="bg-accent rounded-[40px] p-10 text-dark-blue relative overflow-hidden group">
+                  <span className="text-[10px] font-black uppercase text-white tracking-widest mb-4 block">New Brand</span>
+                  <h4 className="text-3xl font-black italic tracking-tighter leading-none mb-6 uppercase">
+                    Mobil 1 <br /> Racing
+                  </h4>
+                  <p className="text-dark-blue/60 text-xs mb-8 font-medium">Experience the power of professional racing technology in your daily commute.</p>
+                  <button className="h-10 px-6 bg-dark-blue text-white rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-dark-blue transition-all relative z-10">
+                    Discover
+                  </button>
+                  <Zap className="absolute -bottom-10 -right-10 w-48 h-48 text-dark-blue/[0.05] group-hover:rotate-12 transition-transform" />
+               </div>
             </div>
           </section>
 
-          {/* Compatibility Table */}
+          {/* Compatible Vehicles */}
           <section className="space-y-8">
             <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-black text-dark-blue uppercase tracking-tight">Compatible vehicles</h2>
+              <h2 className="text-3xl font-black text-dark-blue uppercase tracking-tight italic font-oswald leading-none">Compatible vehicles</h2>
               <div className="bg-accent/10 px-4 py-2 rounded-xl flex items-center gap-2">
                 <Info size={16} className="text-dark-blue" />
                 <span className="text-[10px] font-black uppercase text-dark-blue tracking-wider">Please check your VIN before ordering</span>
               </div>
             </div>
-            <div className="bg-white rounded-[40px] border border-gray-100 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
+            <div className="bg-white rounded-[40px] border border-gray-100 overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-gray-50/50 border-b border-gray-100">
-                      {['Brand', 'Model / Chassis', 'Years', 'Engine', 'Transmission', 'Performance Spec'].map((h) => (
-                        <th key={h} className="px-10 py-6 text-[10px] font-black uppercase text-dark-blue tracking-widest">{h}</th>
+                      {['Make', 'Model', 'Year', 'Engine', 'Transmission', 'Trim'].map((h) => (
+                        <th key={h} className="px-8 py-6 text-[10px] font-black uppercase text-dark-blue tracking-widest">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
-                     {(product.compatibility || []).map((item, i) => (
+                     {[
+                       { make: 'BMW', model: 'X5 (E70)', year: '2007-2013', engine: '4.4 xDrive 50i', transmission: '6 Speed Auto', trim: '407hp 300kW' },
+                       { make: 'BMW', model: 'X6 (E71)', year: '2008-2014', engine: '4.4 xDrive 50i', transmission: '6 Speed Auto', trim: '407hp 300kW' },
+                       { make: 'Audi', model: 'A6 (C6)', year: '2004-2011', engine: '3.0 TFSI quattro', transmission: '6 Speed Auto', trim: '290hp 213kW' },
+                       { make: 'Audi', model: 'Q7 (4LB)', year: '2006-2015', engine: '3.0 TFSI quattro', transmission: '8 Speed Auto', trim: '272hp 200kW' },
+                     ].map((item, i) => (
                       <tr key={i} className="hover:bg-blue-50/30 transition-all group">
-                        <td className="px-10 py-6">
-                          <span className="text-[13px] font-black text-dark-blue uppercase bg-gray-50 px-3 py-1 rounded-lg group-hover:bg-accent transition-colors">{item.make}</span>
+                        <td className="px-8 py-6">
+                          <span className="text-[12px] font-black text-dark-blue uppercase bg-gray-50 px-3 py-1 rounded-lg group-hover:bg-accent transition-colors">{item.make}</span>
                         </td>
-                        <td className="px-10 py-6 text-[13px] font-bold text-dark-blue">{item.model}</td>
-                        <td className="px-10 py-6 text-[13px] font-bold text-gray-400">{item.year}</td>
-                        <td className="px-10 py-6 text-[13px] font-black text-gray-900">{item.engine}</td>
-                        <td className="px-10 py-6 text-[12px] font-bold text-gray-500 italic">{item.transmission}</td>
-                        <td className="px-10 py-6">
-                          <span className="text-[11px] font-bold text-gray-400 italic max-w-xs block leading-relaxed">{item.trim}</span>
-                        </td>
+                        <td className="px-8 py-6 text-[13px] font-bold text-dark-blue">{item.model}</td>
+                        <td className="px-8 py-6 text-[13px] font-bold text-gray-400">{item.year}</td>
+                        <td className="px-8 py-6 text-[13px] font-black text-gray-900">{item.engine}</td>
+                        <td className="px-8 py-6 text-[12px] font-bold text-gray-500">{item.transmission}</td>
+                        <td className="px-8 py-6 text-[11px] font-bold text-gray-400 italic">{item.trim}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+            </div>
+          </section>
+
+          {/* Compare Products */}
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black text-dark-blue uppercase tracking-tight italic font-oswald leading-none">Compare products</h2>
+            <div className="bg-white rounded-[40px] border border-gray-100 overflow-hidden shadow-sm">
+               <div className="grid grid-cols-1 md:grid-cols-4 divide-x divide-gray-50">
+                  <div className="p-8 space-y-8">
+                     <div className="h-40 flex items-center justify-center grayscale opacity-20">
+                        <span className="text-xs font-black uppercase tracking-widest">Specifications</span>
+                     </div>
+                     <div className="space-y-4 pt-12">
+                        {['Price', 'Weight', 'Dimensions', 'Warranty', 'Availability'].map(v => (
+                          <div key={v} className="text-[11px] font-black text-gray-400 uppercase tracking-widest h-10 flex items-center">{v}</div>
+                        ))}
+                     </div>
+                  </div>
+                  {[
+                    { name: 'LIQUI MOLY TOP TEC 4200', price: '$56.72', image: 'https://enovathemes.com/mobex/wp-content/uploads/product-124-img-1.webp' },
+                    { name: 'CASTROL EDGE 5W-30', price: '$48.90', image: 'https://enovathemes.com/mobex/wp-content/uploads/product-123-img-1.webp' },
+                    { name: 'SHELL HELIX ULTRA', price: '$52.15', image: 'https://enovathemes.com/mobex/wp-content/uploads/product-122-img-1.webp' },
+                  ].map((p, i) => (
+                    <div key={i} className="p-8 space-y-8 hover:bg-gray-50 transition-all group">
+                       <div className="h-40 flex flex-col items-center justify-center text-center gap-4">
+                          <img src={p.image} className="h-24 object-contain group-hover:scale-110 transition-transform" alt="" />
+                          <h4 className="text-[11px] font-black text-dark-blue uppercase tracking-tight leading-tight">{p.name}</h4>
+                       </div>
+                       <div className="space-y-4 pt-4 text-center">
+                          <div className="text-lg font-black text-accent h-10 flex items-center justify-center">{p.price}</div>
+                          <div className="text-[12px] font-bold text-dark-blue h-10 flex items-center justify-center">5.0 kg</div>
+                          <div className="text-[12px] font-bold text-dark-blue h-10 flex items-center justify-center">10x10x25 cm</div>
+                          <div className="text-[12px] font-bold text-dark-blue h-10 flex items-center justify-center">2 Years</div>
+                          <div className="h-10 flex items-center justify-center">
+                             <span className="text-[9px] font-black text-white bg-green-500 px-3 py-1 rounded-full uppercase">In Stock</span>
+                          </div>
+                          <button className="w-full h-10 bg-dark-blue text-white rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-accent hover:text-dark-blue transition-all mt-4">
+                             Add to cart
+                          </button>
+                       </div>
+                    </div>
+                  ))}
+               </div>
             </div>
           </section>
 

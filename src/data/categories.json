@@ -99,7 +99,7 @@
     "subCategories": [
       {
         "title": "Engine Parts",
-        "links": ["Pistons", "Camshaft", "Gaskets"]
+        "links": ["Engine electrics", "Knock sensor", "Lambda sensor", "Oil cooler", "Drive chain"]
       }
     ]
   },
@@ -111,7 +111,7 @@
     "subCategories": [
       {
         "title": "Cabin",
-        "links": ["Car mats", "Seat covers", "Dashboard"]
+        "links": ["Car mats", "Gear shift knobs", "Window crank", "Cylinder lock"]
       }
     ]
   }

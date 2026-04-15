@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 const slides = [
   {
@@ -81,29 +82,47 @@ export const HomeSlider = () => {
                 />
                 
                 {/* Content Overlay */}
-                <div className="absolute inset-0 flex flex-col justify-center px-8 lg:px-16 z-20">
+                <div className="absolute inset-0 flex flex-col justify-center px-6 lg:px-16 z-20">
                   <motion.div
                     initial={{ x: 50, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+                    className="max-w-[85%] lg:max-w-[70%]"
                   >
-                    <h2 className="text-4xl lg:text-7xl font-oswald font-bold text-white uppercase leading-tight mb-2 drop-shadow-lg">
+                    <h2 className="text-3xl lg:text-8xl font-outfit font-black text-white uppercase leading-[0.9] mb-2 drop-shadow-lg tracking-tighter">
                       {slides[currentSlide].title}
                     </h2>
-                    <h3 className="text-xl lg:text-4xl font-oswald font-bold text-white uppercase mb-6 drop-shadow-md">
+                    <h3 className="text-lg lg:text-4xl font-outfit font-black text-white uppercase mb-4 drop-shadow-md">
                       {slides[currentSlide].subtitle}
                     </h3>
-                    <p className="text-white text-lg lg:text-xl font-inter mb-8 whitespace-pre-line drop-shadow">
+                    <p className="text-white text-xs lg:text-xl font-medium mb-6 lg:mb-8 whitespace-pre-line drop-shadow-sm opacity-90 line-clamp-2 lg:line-clamp-none">
                       {slides[currentSlide].description}
                     </p>
                     <Link 
                       href={slides[currentSlide].buttonLink}
-                      className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-xl font-bold hover:bg-black hover:text-white transition-all duration-300"
+                      className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 lg:px-10 lg:py-4 rounded-xl font-black hover:bg-black hover:text-white transition-all duration-300 text-sm lg:text-lg shadow-xl"
                     >
                       {slides[currentSlide].buttonText}
-                      <ArrowRight size={20} />
+                      <ArrowRight size={18} strokeWidth={3} className="lg:w-6 lg:h-6" />
                     </Link>
                   </motion.div>
+
+                  {/* Price Badge for Wiper Blades */}
+                  {currentSlide === 0 && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.8, type: 'spring' }}
+                      className="absolute right-[10%] top-1/2 -translate-y-1/2 lg:right-[25%] lg:top-[60%] w-24 h-24 lg:w-32 lg:h-32 bg-[#cc3300] rounded-full flex flex-col items-center justify-center text-white border-4 border-white/20 shadow-2xl z-30"
+                    >
+                      <span className="text-[10px] lg:text-xs font-bold uppercase tracking-widest opacity-80">From</span>
+                      <div className="flex items-start">
+                        <span className="text-xl lg:text-2xl font-black mt-1">$</span>
+                        <span className="text-3xl lg:text-5xl font-black leading-none">3</span>
+                        <span className="text-lg lg:text-xl font-black mt-1">.09</span>
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
 
                 {/* Floating Assets Overlay */}
@@ -132,14 +151,15 @@ export const HomeSlider = () => {
             </AnimatePresence>
 
             {/* Bullets */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-30">
+            <div className="absolute bottom-4 lg:bottom-10 left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
               {slides.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentSlide(idx)}
-                  className={`h-2 transition-all duration-300 rounded-full ${
-                    currentSlide === idx ? 'w-12 bg-white' : 'w-2 bg-white/50 hover:bg-white/80'
-                  }`}
+                  className={cn(
+                    "w-2 h-2 rounded-full transition-all duration-300",
+                    currentSlide === idx ? "bg-white scale-125" : "bg-white/30 hover:bg-white/60"
+                  )}
                 />
               ))}
             </div>
@@ -160,17 +180,17 @@ export const HomeSlider = () => {
           </div>
 
           {/* Right Side Banners - Home 2 Specific */}
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-6">
             
             {/* Banner 1: Batteries */}
-            <div className="relative rounded-4xl overflow-hidden bg-[#FDB913] group">
-              <div className="relative z-10 p-8 flex flex-col h-full justify-center">
-                <span className="text-black font-bold uppercase text-sm mb-2">Top brands</span>
-                <h3 className="text-4xl font-oswald font-black text-black uppercase mb-2">Batteries</h3>
-                <p className="text-black font-medium mb-6">Stay charged up!</p>
+            <div className="relative rounded-3xl lg:rounded-4xl overflow-hidden bg-[#fdb913] group shadow-sm flex flex-col">
+              <div className="relative z-10 p-5 lg:p-8 flex flex-col h-full">
+                <span className="bg-[#cc3300] text-white font-black uppercase text-[8px] lg:text-[10px] px-2 py-0.5 lg:px-3 lg:py-1 rounded w-fit mb-3">Top brands</span>
+                <h3 className="text-xl lg:text-4xl font-oswald font-black text-black uppercase mb-1 leading-none tracking-tight">Batteries</h3>
+                <p className="text-black font-medium text-[10px] lg:text-base mb-4 lg:mb-6">Stay charged up!</p>
                 <Link 
                   href="/shop?ca=battery"
-                  className="inline-flex items-center justify-center w-fit bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-black hover:text-white transition-all text-sm mb-12"
+                  className="inline-flex items-center justify-center w-fit bg-white text-black px-4 py-1.5 lg:px-6 lg:py-2 rounded-lg font-bold hover:bg-black hover:text-white transition-all text-[10px] lg:text-sm shadow-sm"
                 >
                   Shop now
                 </Link>
@@ -178,20 +198,20 @@ export const HomeSlider = () => {
               <img 
                 src="https://enovathemes.com/mobex/wp-content/uploads/banner5-img.webp" 
                 alt="Battery"
-                className="absolute right-[-20px] bottom-[-20px] w-64 h-auto object-contain transition-transform duration-500 group-hover:scale-110 group-hover:-translate-x-4"
+                className="absolute right-[-10px] bottom-[-10px] lg:right-[-20px] lg:bottom-[-20px] w-32 lg:w-64 h-auto object-contain transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-linear-to-r from-white/20 to-transparent pointer-events-none" />
             </div>
 
             {/* Banner 2: Tires */}
-            <div className="relative rounded-4xl overflow-hidden bg-[#EA580C] group">
-              <div className="relative z-10 p-8 flex flex-col h-full justify-center">
-                <span className="text-white font-bold uppercase text-sm mb-2">Buy 3 Get 1 For Free</span>
-                <h3 className="text-4xl font-oswald font-black text-white uppercase mb-2">TIRES & WHEELS</h3>
-                <p className="text-white/90 font-medium mb-6">Stay safe on road!</p>
+            <div className="relative rounded-3xl lg:rounded-4xl overflow-hidden bg-[#eef6ff] group shadow-sm border border-blue-50 flex flex-col">
+              <div className="relative z-10 p-5 lg:p-8 flex flex-col h-full">
+                <span className="bg-[#00d084] text-white font-black uppercase text-[8px] lg:text-[10px] px-2 py-0.5 lg:px-3 lg:py-1 rounded w-fit mb-3">Buy 3 Get 1 For Free</span>
+                <h3 className="text-xl lg:text-4xl font-oswald font-black text-dark-blue uppercase mb-1 leading-none tracking-tight">TIRES & WHEELS</h3>
+                <p className="text-gray-600 font-medium text-[10px] lg:text-base mb-4 lg:mb-6">Stay safe on road!</p>
                 <Link 
                   href="/shop?ca=tires"
-                  className="inline-flex items-center justify-center w-fit bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-black hover:text-white transition-all text-sm mb-12"
+                  className="inline-flex items-center justify-center w-fit bg-white text-black px-4 py-1.5 lg:px-6 lg:py-2 rounded-lg font-bold hover:bg-black hover:text-white transition-all text-[10px] lg:text-sm shadow-sm"
                 >
                   Shop now
                 </Link>
@@ -199,8 +219,9 @@ export const HomeSlider = () => {
               <img 
                 src="https://enovathemes.com/mobex/wp-content/uploads/banner7-img.webp" 
                 alt="Tires"
-                className="absolute right-[-30px] bottom-[-10px] w-72 h-auto object-contain transition-transform duration-500 group-hover:scale-110 group-hover:-translate-x-4 mt-8 pt-8"
+                className="absolute right-[-10px] bottom-[-10px] lg:right-[-30px] lg:bottom-[-10px] w-32 lg:w-72 h-auto object-contain transition-transform duration-500 group-hover:scale-110"
               />
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none" />
             </div>
 
           </div>

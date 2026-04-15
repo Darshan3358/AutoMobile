@@ -52,23 +52,15 @@ export const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex justify-center pt-[135px]">
-          {/* Backdrop */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
-          />
-
+        <div className="absolute top-full left-0 right-0 z-[100] flex justify-center pt-1">
           {/* Menu Container */}
           <motion.div 
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 20, opacity: 0 }}
+            exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative w-full max-w-[1300px] h-fit max-h-[calc(100vh-160px)] bg-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] flex overflow-hidden border-t-2 border-[#FFB800]"
+            onMouseLeave={onClose}
+            className="relative w-full max-w-[1300px] h-fit max-h-[calc(100vh-160px)] bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] flex overflow-hidden border border-gray-100 rounded-b-xl"
           >
             {/* Sidebar */}
             <div className="w-[280px] bg-gray-50 border-r border-gray-100 overflow-y-auto">
@@ -116,7 +108,11 @@ export const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
                         <ul className="space-y-2">
                           {sub.links.map((link, j) => (
                             <li key={j}>
-                              <Link href="#" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors block">
+                              <Link 
+                                href={`/shop?query=${encodeURIComponent(link)}`} 
+                                onClick={onClose}
+                                className="text-[13px] text-gray-500 hover:text-dark-blue hover:font-bold transition-all block"
+                              >
                                 {link}
                               </Link>
                             </li>

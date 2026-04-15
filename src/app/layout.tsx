@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Oswald, Outfit } from "next/font/google";
 import "./globals.css";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { TopPromoBanner } from "@/components/layout/TopPromoBanner";
 
 const oswald = Oswald({
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <TopPromoBanner />
         {children}
+        <MobileBottomNav />
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Play, Calendar, Tag, ChevronRight, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -67,8 +68,8 @@ export const ContentHub = () => {
           </div>
 
           <div className="flex overflow-x-auto lg:grid lg:grid-cols-4 gap-8 pb-8 lg:pb-0 no-scrollbar snap-x snap-mandatory">
-            {/* Subscribe Card */}
-            <div className="min-w-[300px] lg:min-w-0 bg-[#FFB800] rounded-[2.5rem] p-10 flex flex-col justify-between shadow-xl snap-center shrink-0">
+            {/* Subscribe Card - Hidden on Mobile to avoid duplication */}
+            <div className="hidden lg:flex min-w-[300px] lg:min-w-0 bg-[#FFB800] rounded-[2.5rem] p-10 flex-col justify-between shadow-xl snap-center shrink-0">
               <div className="space-y-2">
                 <h4 className="text-2xl font-black text-dark-blue">Get Exclusive Savings</h4>
                 <p className="text-xs text-dark-blue/70 font-bold uppercase tracking-tighter">Join over half a million tools lovers</p>
@@ -91,26 +92,28 @@ export const ContentHub = () => {
               { date: '02 OCT', cat: 'Usefull', title: 'Warning lights indicating activation of various systems', img: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=400' },
               { date: '02 OCT', cat: 'Premium', title: 'What to know about changing the engine oil and oil filters', img: 'https://images.unsplash.com/photo-1605341258814-22b069695028?q=80&w=400' }
             ].map((news, i) => (
-              <motion.div key={i} whileHover={{ y: -10 }} className="min-w-[300px] lg:min-w-0 flex flex-col group cursor-pointer shadow-sm rounded-[2.5rem] overflow-hidden border border-gray-100 h-full snap-center shrink-0 bg-white">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={news.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute top-4 left-4 bg-[#EA580C] text-white p-2.5 rounded-2xl flex flex-col items-center justify-center min-w-[55px] shadow-lg">
-                    <span className="text-sm font-black leading-none">{news.date.split(' ')[0]}</span>
-                    <span className="text-[9px] font-black uppercase tracking-tighter">{news.date.split(' ')[1]}</span>
+              <Link key={i} href="/blog" className="min-w-[300px] lg:min-w-0 flex shrink-0">
+                <motion.div whileHover={{ y: -10 }} className="flex flex-col group cursor-pointer shadow-sm rounded-[2.5rem] overflow-hidden border border-gray-100 h-full snap-center bg-white w-full">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img src={news.img} alt={news.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <div className="absolute top-4 left-4 bg-[#EA580C] text-white p-2.5 rounded-2xl flex flex-col items-center justify-center min-w-[55px] shadow-lg">
+                      <span className="text-sm font-black leading-none">{news.date.split(' ')[0]}</span>
+                      <span className="text-[9px] font-black uppercase tracking-tighter">{news.date.split(' ')[1]}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="p-8 flex flex-col gap-4 flex-1">
-                  <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{news.cat}</span>
-                  <h4 className="text-lg font-black text-dark-blue leading-tight line-clamp-2 uppercase h-14">
-                    {news.title}
-                  </h4>
-                  <div className="mt-auto">
-                    <span className="text-xs font-black text-primary uppercase underline underline-offset-4 flex items-center gap-2 group-hover:text-accent transition-colors">
-                      Read more <ChevronRight className="w-4 h-4" />
-                    </span>
+                  <div className="p-8 flex flex-col gap-4 flex-1">
+                    <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{news.cat}</span>
+                    <h4 className="text-lg font-black text-dark-blue leading-tight line-clamp-2 uppercase h-14">
+                      {news.title}
+                    </h4>
+                    <div className="mt-auto">
+                      <span className="text-xs font-black text-primary uppercase underline underline-offset-4 flex items-center gap-2 group-hover:text-accent transition-colors">
+                        Read more <ChevronRight className="w-4 h-4" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>

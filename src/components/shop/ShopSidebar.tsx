@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { ChevronRight, Search, Star, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -34,8 +35,24 @@ const BRANDS = [
 ];
 
 export const ShopSidebar = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [priceRange, setPriceRange] = useState([0, 1150]);
   const [brandSearch, setBrandSearch] = useState('');
+
+  const handleFilter = (type: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('query', value);
+    router.push(`/shop?${params.toString()}`);
+  };
+
+  const handlePriceFilter = () => {
+    // For a mock, we'll just set a query param for range
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('min', priceRange[0].toString());
+    params.set('max', priceRange[1].toString());
+    router.push(`/shop?${params.toString()}`);
+  };
 
   return (
     <aside className="space-y-8">
@@ -48,6 +65,7 @@ export const ShopSidebar = () => {
           {CATEGORIES.map((cat) => (
             <div 
               key={cat.name}
+              onClick={() => handleFilter('category', cat.name)}
               className="flex items-center justify-between py-2 group cursor-pointer"
             >
               <span className="text-[13px] font-bold text-gray-500 group-hover:text-accent transition-colors">
@@ -63,24 +81,51 @@ export const ShopSidebar = () => {
       <section className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-sm font-black text-dark-blue uppercase">Filter by price</h3>
-          <button className="text-[10px] font-black uppercase text-gray-400 hover:text-accent underline transition-colors">Clear</button>
+          <button 
+            onClick={() => {
+              setPriceRange([0, 1150]);
+              router.push('/shop');
+            }}
+            className="text-[10px] font-black uppercase text-gray-400 hover:text-accent underline transition-colors"
+          >
+            Clear
+          </button>
         </div>
         <div className="space-y-6">
-           {/* Mock Slider */}
-           <div className="relative h-1 bg-gray-100 rounded-full">
-              <div className="absolute left-0 right-1/4 h-full bg-accent rounded-full" />
-              <div className="absolute left-0 w-4 h-4 bg-dark-blue border-2 border-white rounded-full -top-1.5 shadow-md cursor-pointer" />
-              <div className="absolute right-1/4 w-4 h-4 bg-dark-blue border-2 border-white rounded-full -top-1.5 shadow-md cursor-pointer" />
-           </div>
-           <div className="flex items-center gap-4">
-              <div className="flex-1 px-4 py-2 bg-gray-50 rounded-lg text-center font-black text-xs text-dark-blue border border-gray-100">
-                 ${priceRange[0]}
+           <div className="space-y-4">
+              <input 
+                type="range" 
+                min="0" 
+                max="1500" 
+                value={priceRange[1]} 
+                onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+                className="w-full h-1.5 bg-gray-100 rounded-full appearance-none cursor-pointer accent-accent"
+              />
+              <div className="flex items-center gap-4">
+                <div className="flex-1 flex flex-col gap-1">
+                   <span className="text-[9px] font-black text-gray-400 uppercase ml-1">Min</span>
+                   <input 
+                     type="number" 
+                     value={priceRange[0]}
+                     onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
+                     className="w-full px-3 py-2 bg-gray-50 rounded-lg text-center font-black text-xs text-dark-blue border border-gray-100 focus:ring-1 focus:ring-accent outline-none"
+                   />
+                </div>
+                <div className="flex-1 flex flex-col gap-1">
+                   <span className="text-[9px] font-black text-gray-400 uppercase ml-1">Max</span>
+                   <input 
+                     type="number" 
+                     value={priceRange[1]}
+                     onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 0])}
+                     className="w-full px-3 py-2 bg-gray-50 rounded-lg text-center font-black text-xs text-dark-blue border border-gray-100 focus:ring-1 focus:ring-accent outline-none"
+                   />
+                </div>
               </div>
-              <div className="flex-1 px-4 py-2 bg-gray-50 rounded-lg text-center font-black text-xs text-dark-blue border border-gray-100">
-                 ${priceRange[1]}
-              </div>
            </div>
-           <button className="w-full py-3 bg-dark-blue text-white rounded-xl text-xs font-black uppercase hover:bg-black transition-all">
+           <button 
+             onClick={handlePriceFilter}
+             className="w-full py-3 bg-dark-blue text-white rounded-xl text-xs font-black uppercase hover:bg-accent hover:text-dark-blue hover:shadow-lg hover:shadow-accent/20 transition-all font-oswald italic tracking-widest"
+           >
               Filter
            </button>
         </div>
@@ -100,8 +145,12 @@ export const ShopSidebar = () => {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         </div>
         <div className="space-y-3 max-h-[300px] overflow-y-auto no-scrollbar">
-          {BRANDS.map((brand) => (
-            <div key={brand.name} className="flex items-center justify-between px-1 group cursor-pointer">
+          {BRANDS.filter(b => b.name.toLowerCase().includes(brandSearch.toLowerCase())).map((brand) => (
+            <div 
+              key={brand.name} 
+              onClick={() => handleFilter('brand', brand.name)}
+              className="flex items-center justify-between px-1 group cursor-pointer"
+            >
               <div className="flex items-center gap-3">
                 <div className="w-4 h-4 rounded border-2 border-gray-200 group-hover:border-accent transition-colors" />
                 <img src={brand.logo} alt={brand.name} className="w-4 h-4 object-contain opacity-50 contrast-125" />

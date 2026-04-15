@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { User, LayoutGrid, Car, Search, ArrowUp } from 'lucide-react';
+import { User, LayoutGrid, Car, Search, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const MobileBottomNav = () => {
@@ -41,27 +41,27 @@ export const MobileBottomNav = () => {
           initial={{ y: 100 }}
           animate={{ y: 0 }}
           exit={{ y: 100 }}
-          className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-100 px-4 py-2 z-[100] shadow-[0_-5px_20px_rgba(0,0,0,0.05)]"
+          className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-100 px-4 py-4 z-[110] shadow-[0_-15px_30px_rgba(0,0,0,0.08)]"
         >
-          <div className="flex justify-between items-center max-w-md mx-auto">
+          <div className="flex justify-between items-center max-w-md mx-auto px-4">
             {navItems.map((item, i) => (
-              <button key={i} className="flex flex-col items-center gap-1 group">
-                <div className="text-gray-400 group-hover:text-accent transition-colors">
-                  <item.icon size={20} />
+              <button key={i} className="flex flex-col items-center gap-1.5 group">
+                <div className="text-[#64748b] group-hover:text-[#005c7a] transition-all duration-300 transform group-active:scale-90">
+                  <item.icon size={23} strokeWidth={1.4} />
                 </div>
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter group-hover:text-dark-blue">
+                <span className="text-[11px] font-bold text-[#1e293b] font-outfit uppercase tracking-tighter opacity-80 group-hover:opacity-100 group-hover:text-[#005c7a]">
                   {item.label}
                 </span>
               </button>
             ))}
             <button 
               onClick={scrollToTop}
-              className="flex flex-col items-center gap-1 group"
+              className="flex flex-col items-center gap-1.5 group"
             >
-              <div className="text-gray-400 group-hover:text-accent transition-colors">
-                <ArrowUp size={20} />
+              <div className="text-[#64748b] group-hover:text-[#005c7a] transition-all duration-300 transform group-active:scale-90">
+                <ChevronUp size={23} strokeWidth={1.4} />
               </div>
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter group-hover:text-dark-blue">
+              <span className="text-[11px] font-bold text-[#1e293b] font-outfit uppercase tracking-tighter opacity-80 group-hover:opacity-100 group-hover:text-[#005c7a]">
                 Top
               </span>
             </button>
