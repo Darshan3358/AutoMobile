@@ -24,7 +24,7 @@ export default function Home() {
       <FeaturedProducts />
       
       {/* Desktop Only: Combined Top Banners (Lamps + Air Filters) */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block bg-white">
         <Promotions showGrid={false} />
       </div>
 
@@ -36,9 +36,10 @@ export default function Home() {
          On Mobile: This shows the whole Promotions section (Banners + Grid) 
          as per the original design.
       */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block bg-white">
         <Promotions showBanners={false} />
       </div>
+
       <div className="lg:hidden">
         <Promotions />
       </div>
