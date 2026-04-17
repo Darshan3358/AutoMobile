@@ -57,7 +57,7 @@ import { useSearchParams } from 'next/navigation';
 
 export default function ShopPage() {
   return (
-    <div className="bg-[#F8F9FB] min-h-screen flex flex-col">
+    <div className="bg-white min-h-screen flex flex-col">
       <NavBar />
       <React.Suspense fallback={<div>Loading...</div>}>
         <ShopContent />
@@ -415,6 +415,7 @@ function ShopContent() {
              <span className="text-[10px] font-bold text-gray-600">Top</span>
           </button>
       </div>
+
     </>
   );
 }

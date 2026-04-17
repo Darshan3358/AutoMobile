@@ -1,73 +1,85 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { User, LayoutGrid, Car, Search, ChevronUp } from 'lucide-react';
+import { useUIStore } from '@/store/useUIStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter, usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export const MobileBottomNav = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const { openMobileSideBar } = useUIStore();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
-  const scrollToTop = () => {
+  const scrollToTop = (e: React.MouseEvent) => {
+    e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const isShopOrProduct = pathname === '/shop' || pathname.startsWith('/product/');
+
   const navItems = [
-    { icon: User, label: 'Account' },
-    { icon: LayoutGrid, label: 'Categories' },
-    { icon: Car, label: 'Car filter' },
-    { icon: Search, label: 'Search' },
+    { 
+      label: 'Account', 
+      icon: 'https://enovathemes.com/mobex/wp-content/themes/mobex/images/icons/user.svg',
+      onClick: () => router.push('/my-account')
+    },
+    { 
+      label: 'Categories', 
+      icon: 'https://enovathemes.com/mobex/wp-content/themes/mobex/images/icons/categories.svg',
+      onClick: () => openMobileSideBar('categories')
+    },
+    { 
+      label: 'Car filter', 
+      icon: 'https://enovathemes.com/mobex/wp-content/themes/mobex/images/icons/vehicle.svg',
+      onClick: () => openMobileSideBar('car-filter')
+    },
+    { 
+      label: 'Search', 
+      icon: 'https://enovathemes.com/mobex/wp-content/themes/mobex/images/icons/search.svg',
+      onClick: () => openMobileSideBar('search')
+    },
+    // Add Filter button ONLY on shop page
+    ...(isShopOrProduct ? [{
+      label: 'Filter',
+      icon: 'https://enovathemes.com/mobex/wp-content/themes/mobex/images/icons/filter.svg',
+      onClick: () => {
+        openMobileSideBar('shop-filter');
+      },
+      isFilter: true
+    }] : []),
+    { 
+      label: 'Top', 
+      icon: 'https://enovathemes.com/mobex/wp-content/themes/mobex/images/icons/arrow-up.svg',
+      onClick: (e: any) => scrollToTop(e)
+    },
   ];
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          exit={{ y: 100 }}
-          className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-100 px-4 py-4 z-[110] shadow-[0_-15px_30px_rgba(0,0,0,0.08)]"
-        >
-          <div className="flex justify-between items-center max-w-md mx-auto px-4">
-            {navItems.map((item, i) => (
-              <button key={i} className="flex flex-col items-center gap-1.5 group">
-                <div className="text-[#64748b] group-hover:text-[#005c7a] transition-all duration-300 transform group-active:scale-90">
-                  <item.icon size={23} strokeWidth={1.4} />
-                </div>
-                <span className="text-[11px] font-bold text-[#1e293b] font-outfit uppercase tracking-tighter opacity-80 group-hover:opacity-100 group-hover:text-[#005c7a]">
-                  {item.label}
-                </span>
-              </button>
-            ))}
+    <motion.div
+      initial={{ y: 100 }}
+      animate={{ y: 0 }}
+      className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-100 z-[110] shadow-[0_-5px_30_rgba(0,0,0,0.08)]"
+    >
+      <ul className="flex justify-around items-center h-[70px] sticky-dashboard active">
+        {navItems.map((item, i) => (
+          <li key={i} className={cn("flex-1 h-full", item.isFilter ? "bg-gray-50 border-x border-gray-100/50" : "")}>
             <button 
-              onClick={scrollToTop}
-              className="flex flex-col items-center gap-1.5 group"
+              onClick={item.onClick}
+              className="flex flex-col items-center justify-center w-full h-full gap-1.5 group active:scale-90 transition-all"
             >
-              <div className="text-[#64748b] group-hover:text-[#005c7a] transition-all duration-300 transform group-active:scale-90">
-                <ChevronUp size={23} strokeWidth={1.4} />
-              </div>
-              <span className="text-[11px] font-bold text-[#1e293b] font-outfit uppercase tracking-tighter opacity-80 group-hover:opacity-100 group-hover:text-[#005c7a]">
-                Top
+              <img 
+                src={item.icon} 
+                alt={item.label} 
+                className="w-[22px] h-[22px] opacity-80 group-hover:opacity-100 transition-opacity" 
+              />
+              <span className="text-[10px] font-black text-dark-blue uppercase tracking-tight">
+                {item.label}
               </span>
             </button>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          </li>
+        ))}
+      </ul>
+    </motion.div>
   );
 };

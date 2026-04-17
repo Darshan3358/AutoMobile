@@ -28,11 +28,12 @@ import { MyGarageDropdown } from './MyGarageDropdown';
 const MegaMenu = dynamic(() => import('./MegaMenu').then(mod => mod.MegaMenu), { ssr: false });
 const BrandMegaMenu = dynamic(() => import('./BrandMegaMenu').then(mod => mod.BrandMegaMenu), { ssr: false });
 
+import { useUIStore } from '@/store/useUIStore';
 export const NavBar = () => {
   const pathname = usePathname();
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isBrandMenuOpen, setIsBrandMenuOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { openMobileSideBar } = useUIStore();
   const [isGarageOpen, setIsGarageOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
 
@@ -233,7 +234,7 @@ export const NavBar = () => {
                  <ShoppingCart className="w-8 h-8 text-white" strokeWidth={1.5} />
                  <span className="absolute -top-1 -right-2 bg-[#ffb900] text-black rounded-full w-[22px] h-[22px] text-[12px] flex items-center justify-center font-black shadow-lg">0</span>
                </div>
-               <button onClick={() => setIsMobileMenuOpen(true)}>
+               <button onClick={() => openMobileSideBar('menu')}>
                  <Menu size={34} className="text-white" strokeWidth={2.5} />
                </button>
             </div>
@@ -291,8 +292,6 @@ export const NavBar = () => {
       <MegaMenu isOpen={isMegaMenuOpen} onClose={() => setIsMegaMenuOpen(false)} />
       <BrandMegaMenu isOpen={isBrandMenuOpen} onClose={() => setIsBrandMenuOpen(false)} />
       <MobileSideBar 
-        isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
         navLinks={navLinks} 
       />
     </header>

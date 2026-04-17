@@ -59,15 +59,16 @@ export const BestDeals = () => {
           </div>
         </div>
 
-        <div className="w-full overflow-x-auto no-scrollbar pb-6 md:pb-0">
-          <div className="flex flex-col flex-wrap h-[880px] md:grid md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-8 min-w-max md:min-w-0 px-2 md:h-auto snap-x snap-mandatory">
+        <div className="w-full">
+          <div className="flex overflow-x-auto md:grid md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-8 no-scrollbar pb-4 snap-x snap-mandatory px-2">
             {dealProducts.map(product => (
-              <div key={product.id} className="basis-[calc(50%-12px)] md:basis-auto snap-start shrink-0 pb-4 h-full">
+              <div key={product.id} className="min-w-[calc(50%-12px)] md:min-w-0 snap-start h-full">
                 <ProductCard {...product} />
               </div>
             ))}
           </div>
         </div>
+
       </div>
     </section>
   );
